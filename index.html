@@ -2,11 +2,25 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B's Goods - Our Store</title>
     <style>
+        /* --- GLOBAL NON-INTERACTIVE STYLES --- */
+        * {
+            cursor: default !important;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        *:focus {
+            outline: none !important;
+        }
+
+        /* --- General Body and Container Styles --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -80,19 +94,10 @@
             border: 2px solid transparent;
         }
 
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
         @media screen and (max-width: 768px) {
             h1 {
                 font-size: 3rem;
                 white-space: normal;
-                /* Allow to break into a new line on mobile */
             }
 
             h1,
@@ -109,12 +114,6 @@
             h1 {
                 font-size: 2.5rem;
                 white-space: normal;
-                /* Allow to break into a new line on mobile */
-            }
-
-            h1 {
-                white-space: normal;
-                /* Separate 'Welcome to' on a new line for small displays */
             }
 
             h2 {
@@ -123,9 +122,13 @@
 
             .btn {
                 display: block;
-                /* Display button as a block on mobile */
                 margin-top: 20px;
-                /* Add margin to the button for spacing */
+            }
+            
+            /* MODIFIED: Popup style for mobile */
+            .modal-content {
+                width: 85%; /* Makes the popup narrower */
+                margin-top: 40%; /* Adjusts vertical position */
             }
         }
 
@@ -143,21 +146,20 @@
             height: auto;
         }
 
-        /* Specific style for the 3rd platform button */
         .platform3-button img {
             margin-bottom: 15px;
         }
-        
-        /* --- CSS FOR POPUP (NEW) --- */
+
+        /* --- CSS FOR POPUP --- */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+            background-color: rgba(0, 0, 0, 0.5);
             animation: fadeIn 0.3s;
         }
 
@@ -179,12 +181,8 @@
             right: 15px;
             font-size: 28px;
             font-weight: bold;
-            cursor: pointer;
         }
 
-        .close-button:hover {
-            color: #333;
-        }
     </style>
 </head>
 
@@ -198,11 +196,11 @@
             <a href="https://www.amazon.com/shops/bsgoodsllc"><img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
                     alt="Amazon"></a>
-            
+
             <a href="#" onclick="showPopup(event)"><img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/2560px-EBay_logo.svg.png"
                     alt="eBay"></a>
-            
+
             <a href="https://www.mercari.com/u/676991442/?itemStatuses=1" class="platform3-button"><img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Mercari_logo_2018.svg/2560px-Mercari_logo_2018.svg.png"
                     alt="Mercari"></a>
@@ -225,7 +223,7 @@
         const ebayPopup = document.getElementById('ebayPopup');
 
         function showPopup(event) {
-            event.preventDefault(); // Prevents the link from trying to navigate
+            event.preventDefault();
             ebayPopup.style.display = 'block';
         }
 
@@ -233,10 +231,9 @@
             ebayPopup.style.display = 'none';
         }
 
-        // Close the popup if the user clicks outside of the message box
         window.onclick = function (event) {
             if (event.target == ebayPopup) {
-                closePopup();
+                // closePopup(); 
             }
         }
     </script>
