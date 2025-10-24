@@ -30,8 +30,10 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
             transition: background 0.3s ease;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         
         /* Prevent layout shift during font loading */
@@ -77,6 +79,25 @@
         /* Fallback gradient */
         .gradient-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            background-attachment: fixed; /* Keep gradient fixed on scroll */
+        }
+        
+        /* Ensure full viewport coverage on mobile */
+        @media (max-width: 768px) {
+            html, body {
+                height: 100%;
+                height: 100dvh;
+                overflow-x: hidden;
+            }
+            
+            .gradient-bg {
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+            
+            main {
+                min-height: calc(100vh - 120px); /* Account for footer */
+            }
         }
         
         .dark .gradient-bg {
@@ -85,7 +106,22 @@
         
         .platform-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+        }
+        
+        .platform-card a,
+        .platform-card button {
+            border-radius: 1rem; /* rounded-2xl equivalent */
+            overflow: hidden; /* Ensure inner elements respect the rounded corners */
+        }
+        
+        .platform-card:hover a,
+        .platform-card:hover button {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .platform-card:hover a,
+        .dark .platform-card:hover button {
+            background-color: rgba(0, 0, 0, 0.2);
         }
         
         .platform-card:hover {
@@ -108,13 +144,10 @@
         
         .glass-effect {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .dark .glass-effect {
             background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -123,7 +156,7 @@
     <!-- Dark Mode Toggle -->
     <button 
         id="darkModeToggle" 
-        class="fixed top-6 right-6 z-50 p-3 rounded-full glass-effect hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="fixed top-6 right-6 z-40 p-3 rounded-full glass-effect hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label="Toggle dark mode"
     >
         <svg id="sunIcon" class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
@@ -159,7 +192,7 @@
                 <!-- Amazon Card -->
                 <article class="platform-card group">
                     <a href="https://www.amazon.com/shops/bsgoodsllc" 
-                       class="block p-8 rounded-2xl glass-effect hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300"
+                       class="block p-8 glass-effect transition-all duration-300 focus:outline-none"
                        aria-label="Visit our Amazon store">
                         <div class="text-center">
                             <div class="mb-6 animate-bounce-gentle">
@@ -184,7 +217,7 @@
                 <!-- eBay Card -->
                 <article class="platform-card group">
                     <button onclick="showPopup(event)" 
-                            class="w-full p-8 rounded-2xl glass-effect hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            class="w-full p-8 glass-effect transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                             aria-label="eBay store information">
                         <div class="text-center">
                             <div class="mb-6 animate-bounce-gentle" style="animation-delay: 0.2s">
@@ -209,7 +242,7 @@
                 <!-- Mercari Card -->
                 <article class="platform-card group">
                     <a href="https://www.mercari.com/u/676991442/?itemStatuses=1" 
-                       class="block p-8 rounded-2xl glass-effect hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300"
+                       class="block p-8 glass-effect transition-all duration-300 focus:outline-none"
                        aria-label="Visit our Mercari store">
                         <div class="text-center">
                             <div class="mb-6 animate-bounce-gentle" style="animation-delay: 0.4s">
