@@ -1,243 +1,427 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B's Goods - Our Store</title>
+    <meta name="description" content="Welcome to B's Goods - Your premier destination for quality products across multiple platforms including Amazon, eBay, and Mercari.">
+    <meta name="keywords" content="B's Goods, online store, Amazon, eBay, Mercari, shopping">
+    <meta property="og:title" content="B's Goods - Your Premier Shopping Destination">
+    <meta property="og:description" content="Explore our store on various platforms including Amazon, eBay, and Mercari.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bsgoodsllc.com">
+    <title>B's Goods - Your Premier Shopping Destination</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+    
+    <!-- Production Tailwind CSS -->
+    <link rel="stylesheet" href="tailwind.css">
+    
+    <!-- Critical CSS to prevent FOUC -->
     <style>
-        /* --- GLOBAL NON-INTERACTIVE STYLES --- */
-        * {
-            cursor: default !important;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -webkit-tap-highlight-color: transparent;
+        /* Critical styles loaded immediately */
+        html {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
-
-        *:focus {
-            outline: none !important;
-        }
-
-        /* --- General Body and Container Styles --- */
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-            background-color: #f9f9f9;
-            color: #333;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            transition: background 0.3s ease;
         }
-
-        .container {
-            text-align: center;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            animation: fadeIn 1s ease;
+        
+        /* Prevent layout shift during font loading */
+        h1, h2, h3, p {
+            font-display: swap;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        
+        /* Smooth font loading without hiding content */
+        .font-loading {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
         }
-
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            color: #007bff;
-            white-space: nowrap;
+        
+        .fonts-loaded .font-loading {
+            opacity: 1;
         }
-
-        h2 {
-            font-size: 1.5rem;
-            color: #555;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-weight: normal;
+        
+        /* Prevent animation glitches */
+        .animate-fade-in,
+        .animate-slide-up {
+            animation-fill-mode: both;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 0.8rem;
+        
+        /* Ensure text is visible immediately */
+        h1, h2, h3 {
+            visibility: visible !important;
+            opacity: 1 !important;
         }
-
-        .btn {
-            padding: 12px 24px;
-            font-size: 1rem;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid transparent;
+        
+        /* Smooth text rendering */
+        * {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-
-        @media screen and (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-                white-space: normal;
-            }
-
-            h1,
-            h2 {
-                white-space: pre-line;
-            }
-
-            h2 {
-                font-size: 1.3rem;
-            }
+        
+        /* Prevent layout shifts */
+        .animate-slide-up {
+            will-change: transform, opacity;
         }
-
-        @media screen and (max-width: 480px) {
-            h1 {
-                font-size: 2.5rem;
-                white-space: normal;
-            }
-
-            h2 {
-                font-size: 1.2rem;
-            }
-
-            .btn {
-                display: block;
-                margin-top: 20px;
-            }
-            
-            /* MODIFIED: Popup style for mobile */
-            .modal-content {
-                width: 85%; /* Makes the popup narrower */
-                margin-top: 40%; /* Adjusts vertical position */
-            }
+        
+        /* Fallback gradient */
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
         }
-
-        .platform-buttons {
-            margin-top: 50px;
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
         }
-
-        .platform-buttons a {
-            display: inline-block;
-            margin: 0 10px;
+        
+        .platform-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
         }
-
-        .platform-buttons img {
-            width: 150px;
-            height: auto;
+        
+        .platform-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
-
-        .platform3-button img {
-            margin-bottom: 15px;
+        
+        .dark .platform-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-
-        /* --- CSS FOR POPUP --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s;
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
         }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 20% auto;
-            padding: 25px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            position: relative;
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-
-        .close-button {
-            color: #aaa;
-            position: absolute;
-            top: 5px;
-            right: 15px;
-            font-size: 28px;
-            font-weight: bold;
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <h1>Welcome to <br class="break-on-mobile"><a href="https://bsgoodsllc.com"
-                style="color: #007bff; text-decoration: none;">B's Goods</a></h1>
-        <h2>Explore our store on various platforms:</h2>
+<body class="min-h-screen gradient-bg transition-colors duration-300 font-loading">
+    <!-- Dark Mode Toggle -->
+    <button 
+        id="darkModeToggle" 
+        class="fixed top-6 right-6 z-50 p-3 rounded-full glass-effect hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label="Toggle dark mode"
+    >
+        <svg id="sunIcon" class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+        </svg>
+        <svg id="moonIcon" class="w-6 h-6 text-blue-300 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+    </button>
 
-        <div class="platform-buttons">
-            <a href="https://www.amazon.com/shops/bsgoodsllc"><img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
-                    alt="Amazon"></a>
+    <!-- Main Content -->
+    <main class="min-h-screen flex items-center justify-center px-4 py-8">
+        <div class="max-w-4xl w-full">
+            <!-- Header Section -->
+            <header class="text-center mb-12">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 animate-slide-up">
+                    Welcome to 
+                    <a href="https://bsgoodsllc.com" 
+                       class="text-blue-200 hover:text-blue-100 transition-colors duration-300 hover:underline decoration-2 underline-offset-4">
+                        B's Goods
+                    </a>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-200 font-light animate-slide-up" style="animation-delay: 0.1s">
+                    Your premier destination for quality products
+                </p>
+                <p class="text-lg text-gray-300 mt-2 animate-slide-up" style="animation-delay: 0.2s">
+                    Explore our store across multiple platforms
+                </p>
+            </header>
 
-            <a href="#" onclick="showPopup(event)"><img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/2560px-EBay_logo.svg.png"
-                    alt="eBay"></a>
+            <!-- Platform Cards -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto animate-slide-up" style="animation-delay: 0.3s">
+                <!-- Amazon Card -->
+                <article class="platform-card group">
+                    <a href="https://www.amazon.com/shops/bsgoodsllc" 
+                       class="block p-8 rounded-2xl glass-effect hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300"
+                       aria-label="Visit our Amazon store">
+                        <div class="text-center">
+                            <div class="mb-6 animate-bounce-gentle">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
+                                     alt="Amazon Logo" 
+                                     class="h-16 mx-auto filter brightness-0 invert dark:brightness-100 dark:invert-0">
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Amazon Store</h3>
+                            <p class="text-gray-300 text-sm">Browse our full catalog</p>
+                            <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="inline-flex items-center text-blue-300 text-sm font-medium">
+                                    Visit Store 
+                                    <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
 
-            <a href="https://www.mercari.com/u/676991442/?itemStatuses=1" class="platform3-button"><img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Mercari_logo_2018.svg/2560px-Mercari_logo_2018.svg.png"
-                    alt="Mercari"></a>
+                <!-- eBay Card -->
+                <article class="platform-card group">
+                    <button onclick="showPopup(event)" 
+                            class="w-full p-8 rounded-2xl glass-effect hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            aria-label="eBay store information">
+                        <div class="text-center">
+                            <div class="mb-6 animate-bounce-gentle" style="animation-delay: 0.2s">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/2560px-EBay_logo.svg.png"
+                                     alt="eBay Logo" 
+                                     class="h-16 mx-auto filter brightness-0 invert dark:brightness-100 dark:invert-0">
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">eBay Store</h3>
+                            <p class="text-gray-300 text-sm">Currently unavailable</p>
+                            <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="inline-flex items-center text-yellow-300 text-sm font-medium">
+                                    Learn More 
+                                    <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </button>
+                </article>
+
+                <!-- Mercari Card -->
+                <article class="platform-card group">
+                    <a href="https://www.mercari.com/u/676991442/?itemStatuses=1" 
+                       class="block p-8 rounded-2xl glass-effect hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300"
+                       aria-label="Visit our Mercari store">
+                        <div class="text-center">
+                            <div class="mb-6 animate-bounce-gentle" style="animation-delay: 0.4s">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Mercari_logo_2018.svg/2560px-Mercari_logo_2018.svg.png"
+                                     alt="Mercari Logo" 
+                                     class="h-16 w-24 mx-auto filter brightness-0 invert dark:brightness-100 dark:invert-0 object-contain">
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Mercari Store</h3>
+                            <p class="text-gray-300 text-sm">Discover unique finds</p>
+                            <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="inline-flex items-center text-blue-300 text-sm font-medium">
+                                    Visit Store 
+                                    <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </section>
         </div>
-    </div>
+    </main>
 
-    <div id="ebayPopup" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closePopup()">&times;</span>
-            <p style="font-size: 1.2rem; color: #333;">Our eBay store is unavailable.</p>
+    <!-- Footer -->
+    <footer class="bg-black/20 backdrop-blur-sm border-t border-white/10 py-6">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-gray-300 text-sm">
+                &copy; 2025 
+                <a href="https://bsgoodsllc.com" 
+                   class="text-gray-300 hover:text-gray-200 transition-colors duration-300 no-underline">
+                    B's Goods LLC
+                </a>. 
+                All Rights Reserved.
+            </p>
         </div>
-    </div>
-
-    <footer>
-        &copy; 2025 <a href="https://bsgoodsllc.com" style="color: #fff; text-decoration: none;">B's Goods LLC</a>. All
-        Rights Reserved.
     </footer>
 
+    <!-- Modal -->
+    <div id="ebayPopup" 
+         class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+         role="dialog" 
+         aria-modal="true" 
+         aria-labelledby="modal-title">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md mx-4 shadow-2xl transform transition-all duration-300 scale-95 opacity-0"
+             id="modalContent">
+            <div class="text-center">
+                <button onclick="closePopup()" 
+                        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full p-1"
+                        aria-label="Close modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <div class="mb-6">
+                    <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <h2 id="modal-title" class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                        eBay Store Unavailable
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Our eBay store is currently unavailable. Please check back later or visit our other platforms.
+                    </p>
+                </div>
+                
+                <div class="flex gap-3 justify-center">
+                    <button onclick="closePopup()" 
+                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Got it
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
     <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.classList.add('dark');
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            
+            if (html.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                localStorage.setItem('theme', 'light');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+        });
+
+        // Modal functionality
         const ebayPopup = document.getElementById('ebayPopup');
+        const modalContent = document.getElementById('modalContent');
 
         function showPopup(event) {
             event.preventDefault();
-            ebayPopup.style.display = 'block';
+            ebayPopup.classList.remove('hidden');
+            ebayPopup.classList.add('flex');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Focus management
+            modalContent.focus();
         }
 
         function closePopup() {
-            ebayPopup.style.display = 'none';
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                ebayPopup.classList.add('hidden');
+                ebayPopup.classList.remove('flex');
+            }, 300);
         }
 
-        window.onclick = function (event) {
-            if (event.target == ebayPopup) {
-                // closePopup(); 
+        // Close modal on outside click
+        ebayPopup.addEventListener('click', (event) => {
+            if (event.target === ebayPopup) {
+                closePopup();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !ebayPopup.classList.contains('hidden')) {
+                closePopup();
+            }
+        });
+
+        // Loading animation for platform cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        // Observe platform cards for animation
+        document.querySelectorAll('.platform-card').forEach(card => {
+            card.style.animationPlayState = 'paused';
+            observer.observe(card);
+        });
+
+        // Smooth scrolling for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Font loading detection to prevent FOUC
+        function checkFontsLoaded() {
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(() => {
+                    document.body.classList.remove('font-loading');
+                    document.body.classList.add('fonts-loaded');
+                });
+            } else {
+                // Fallback for browsers without Font Loading API
+                setTimeout(() => {
+                    document.body.classList.remove('font-loading');
+                    document.body.classList.add('fonts-loaded');
+                }, 50);
             }
         }
-    </script>
 
+        // Run font loading check immediately
+        checkFontsLoaded();
+        
+        // Also run after a short delay to ensure fonts are loaded
+        setTimeout(() => {
+            document.body.classList.remove('font-loading');
+            document.body.classList.add('fonts-loaded');
+        }, 200);
+
+    </script>
 </body>
 
 </html>
